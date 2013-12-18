@@ -80,7 +80,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     while(y == 0)
         y = (rand() % 6) - 3;     // Evitamos que se mueva de forma horizontal al inicio
 
-    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(1, 1)));
+    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(0, 1)));
 
     // inicialización de las variables del programa
 
@@ -107,7 +107,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
     //Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
 
-    Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(0,100));
+    Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(0,35));
 
     //Obstaculo* elipse2 = new Elipse(30, 15, new PV2D(-100,100));
 
@@ -304,7 +304,7 @@ void __fastcall TGLForm2D::FormClick(TObject *Sender)
     //Descarto falsos positivos
     if(colision && mintImpacto > 0 && mintImpacto <=modulo ){
         //Mueve la pelota hasta tImpacto
-        //ShowMessage("Positivo valido detectado");
+        ShowMessage("Positivo valido detectado");
         pelota->muevePelotaHasta(mintImpacto);
         pelota->cambiaSentidoRotacion();
         //Timer1->Enabled = false;

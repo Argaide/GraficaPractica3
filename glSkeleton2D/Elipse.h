@@ -61,8 +61,8 @@ class Elipse : public Obstaculo
             tImpacto = 9999;
 
             //Calculo el nuevo centro de la pelota transformado
-            GLdouble xCentro = (1/poligono->getAnchura()) * centro->getX() - poligono->getCentro()->getX();
-            GLdouble yCentro = (1/poligono->getAltura()) * centro->getY() - poligono->getCentro()->getY();
+            GLdouble xCentro = (1/poligono->getAnchura()) * centro->getX() - (poligono->getCentro()->getX() / poligono->getAnchura() ) ;
+            GLdouble yCentro = (1/poligono->getAltura()) * centro->getY() - (poligono->getCentro()->getY() / poligono->getAltura());
             PV2D* centroPelotaTransformado = new PV2D(xCentro,yCentro);
 
             //Calculo el nuevo vector de la pelota transformado
@@ -90,10 +90,24 @@ class Elipse : public Obstaculo
 
 
             if(delta < 0){
-                ShowMessage("No hay interseccion con la elipse");
+                //ShowMessage("No hay interseccion con la elipse");
                 return false;
            }
-            ShowMessage("Hay interseccion con la elipse");
+           //ShowMessage("Hay interseccion con la elipse");
+
+            //Calculamos los tImpactos y miramos cual es menor
+           tImpacto = (-B - pow(delta,0.5)) / (2*A);
+
+           normalImpacto  = 0;
+
+           GLdouble tImpactoAux = (-B + sqrt(delta)) / (2*A);
+
+           if(tImpactoAux < tImpacto){
+                tImpacto = tImpactoAux;
+                normalImpacto= 0;
+           }
+
+
             return true;
         }
 
