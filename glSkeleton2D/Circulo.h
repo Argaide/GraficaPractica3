@@ -32,7 +32,7 @@ class Circulo : public Obstaculo
    public:
         Circulo();
         Circulo(double r, PV2D* c){
-            poligono = new Poligono(r,c);
+            poligono = new Poligono(r,c);             
         }
         ~Circulo(){ delete poligono; };
 

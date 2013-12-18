@@ -13,6 +13,7 @@ USEUNIT("PV2D.cpp");
 USEUNIT("Vector.cpp");
 USEUNIT("Lista.cpp");
 USEUNIT("RecbTriangulo.cpp");
+USEUNIT("Elipse.cpp");
 //---------------------------------------------------------------------------
 WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {

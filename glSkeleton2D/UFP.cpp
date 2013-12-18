@@ -20,6 +20,7 @@ using namespace std;
 #include "Circulo.h"
 #include "RecbTriangulo.h"
 #include "RecbCirculo.h"
+#include "Elipse.h"
 
 #include <math.h>
 #include "stdlib.h"
@@ -106,6 +107,9 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
     //Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
 
+    Obstaculo* elipse = new Elipse(20, new PV2D(100,100));
+
+
     listaObstaculos = new Lista<Obstaculo*>();
      //metemos las cuatro paredes en la lista de objetos
     //listaObstaculos->ponElem(triangulo1);
@@ -133,6 +137,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     listaObstaculos->ponElem(recb02);
     listaObstaculos->ponElem(recb03);
     listaObstaculos->ponElem(recb04);
+    listaObstaculos->ponElem(elipse);
 
 }
 
