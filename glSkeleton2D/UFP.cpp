@@ -79,7 +79,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     while(y == 0)
         y = (rand() % 6) - 3;     // Evitamos que se mueva de forma horizontal al inicio
 
-    pelota = new Pelota(25, new PV2D(-100.66,22), new Vector(new PV2D(x, y)));
+    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(1, 0)));
 
     // inicialización de las variables del programa
 
@@ -99,12 +99,12 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* circulo3 = new Circulo (30, new PV2D(110,-1));
     //Obstaculo* triangulo8 = new Triangulo(new PV2D(-30,0), new PV2D(0,30), new PV2D(30,0));
 
-    Obstaculo* recb1 = new RecbTriangulo(25, new Triangulo(new PV2D(-30,30), new PV2D(30,30), new PV2D(0,0)));
-    Obstaculo* recb2 = new RecbTriangulo(25, new Triangulo(new PV2D(-70,-60), new PV2D(-10,-130), new PV2D(-90,-120)));
-    Obstaculo* recb3 = new RecbTriangulo(25, new Triangulo(new PV2D(20,60), new PV2D(70,120), new PV2D(70,50)));
+    //Obstaculo* recb1 = new RecbTriangulo(25, new Triangulo(new PV2D(-30,30), new PV2D(30,30), new PV2D(0,0)));
+    //Obstaculo* recb2 = new RecbTriangulo(25, new Triangulo(new PV2D(-70,-60), new PV2D(-10,-130), new PV2D(-90,-120)));
+    //Obstaculo* recb3 = new RecbTriangulo(25, new Triangulo(new PV2D(20,60), new PV2D(70,120), new PV2D(70,50)));
 
-    Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
-    Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
+    //Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
+    //Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
 
     listaObstaculos = new Lista<Obstaculo*>();
      //metemos las cuatro paredes en la lista de objetos
@@ -120,13 +120,13 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //listaObstaculos->ponElem(circulo2);
     //listaObstaculos->ponElem(circulo3);
 
-    listaObstaculos->ponElem(recb1);
-    listaObstaculos->ponElem(recb2);
-    listaObstaculos->ponElem(recb3);
+    //listaObstaculos->ponElem(recb1);
+    //listaObstaculos->ponElem(recb2);
+    //listaObstaculos->ponElem(recb3);
 
 
-    listaObstaculos->ponElem(circulo1R);
-    listaObstaculos->ponElem(circulo2R);
+    //listaObstaculos->ponElem(circulo1R);
+    //listaObstaculos->ponElem(circulo2R);
 
     //Paredes con recubrimiento
     listaObstaculos->ponElem(recb01);
@@ -227,6 +227,7 @@ void __fastcall TGLForm2D::GLScene()
     glClear(GL_COLOR_BUFFER_BIT);
 
     dibulaObstaculo();
+    
     pelota->dibujaPelota();
 
     glFlush();
@@ -299,6 +300,7 @@ void __fastcall TGLForm2D::Timer1Timer(TObject *Sender)
         //Mueve la pelota hasta tImpacto
         //ShowMessage("Positivo valido detectado");
         pelota->muevePelotaHasta(mintImpacto);
+        pelota->cambiaSentidoRotacion();
         //Timer1->Enabled = false;
         minObstaculo->resuelveColision(minNormalImpacto, pelota->getCentro(), pelota->getVector());
     }

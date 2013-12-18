@@ -46,16 +46,20 @@ class Pelota
 
 /*** SET ***/ 
         void setCentro(GLdouble x, GLdouble y){ poligono->setCentro(x,y); }
+        void cambiaSentidoRotacion() {poligono->cambiaSentidoRotacion();}
 
 /*** DIBUJA PELOTA ***/
         void dibujaPelota(){
-            poligono->pintaPoligono();
+            poligono->pintaPoligonoCentrado();
 
             // Pintamos el centro de la pelota
+            glMatrixMode(GL_MODELVIEW);
+            glTranslated(getX(),getY(),0);
             glColor3f(1,0,0);
             glBegin(GL_POINTS);
-                glVertex2d(getX(),getY());
+                glVertex2d(1,1);
             glEnd();
+            glLoadIdentity();
         }
 
          void muevePelota(){ // TODO -> USAR LA CLASE TTIMER... (por el momento no la uso)
