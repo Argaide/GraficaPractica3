@@ -24,29 +24,46 @@
 class Poligono
 {
    private:
-        double radio;
+        double altura;
+        double anchura;
         PV2D* centro;                    
         Lista<PV2D*>* listaVertices;
         double rotacionAcumulada;
         bool sentidoRotacion; // true para horario false para antihorario
+        bool esPelota;
         
    public:
         Poligono();
-        Poligono(double r, PV2D* c){
-            radio = r;
+        Poligono(double r, PV2D* c, bool pelota){
+            altura= r;
+            anchura = r;
             centro = c;
-            listaVertices = new Lista<PV2D*>();  
+            listaVertices = new Lista<PV2D*>();
             rotacionAcumulada=0;
             sentidoRotacion=false;
+            esPelota = pelota;
         }
-        ~Poligono(){ radio = 0; delete centro; delete listaVertices; rotacionAcumulada=0;};
 
-/*** GETTERS ***/    
-        double getRadio(){ return radio; }
+        Poligono(double ancho, double alto, PV2D* c, bool pelota){
+            altura= alto;
+            anchura = ancho;
+            centro = c;
+            listaVertices = new Lista<PV2D*>();
+            rotacionAcumulada=0;
+            sentidoRotacion=false;
+            esPelota = pelota;
+        }
+
+        ~Poligono(){ altura = 0; anchura = 0; delete centro; delete listaVertices; rotacionAcumulada=0;};
+
+/*** GETTERS ***/
+        double getAltura(){ return altura; }
+        double getAnchura(){ return anchura; }
         PV2D* getCentro(){ return centro; }
 
 /*** SETTERS ***/
-        void setRadio(double r){ radio = r; }
+        void setAltura(double a){ altura = a; }
+        void setAnchura(double a){ anchura = a; }
         void setCentro(GLdouble x, GLdouble y){ centro->setCoor(x,y); }
         void cambiaSentidoRotacion(){ if(sentidoRotacion) sentidoRotacion = false; else sentidoRotacion=true;}
 
@@ -66,16 +83,16 @@ class Poligono
             // Movemos el lapiz al principio del Poligono
             GLdouble centroX = centro->getX();
             GLdouble centroY = centro->getY();
-            PV2D* vertice0 = new PV2D(centroX + radio, centroY);
+            PV2D* vertice0 = new PV2D(centroX + anchura, centroY);
             lapiz->moveTo(vertice0);
 
             // Calculamos el punto en el que el lapiz tiene que mirar
             GLdouble mitadAngulo = anguloDesigual / 2;
-            GLfloat dist =  radio * sin(mitadAngulo) * 2;
+            GLfloat dist =  anchura * sin(mitadAngulo) * 2;
             GLdouble anguloAux = PI - angulo;
             GLfloat base = dist * sin(anguloAux);
             GLfloat nuevaY = dist * cos(anguloAux);
-            GLdouble nuevoX = radio - base;
+            GLdouble nuevoX = anchura - base;
 
             PV2D* vertice1 = new PV2D(centroX+nuevoX, centroY+nuevaY);
             lapiz->lookAt(vertice1);
@@ -150,7 +167,6 @@ void pintaPoligonoCentrado(){
             }
 
             pintaVertices();
-            //pintaRadios();
 
             delete lapiz;
         }
@@ -161,11 +177,13 @@ void pintaPoligonoCentrado(){
             int numElem = listaVertices->numElem();
             PV2D* verticeActual;
             glMatrixMode(GL_MODELVIEW);
+            glLoadIdentity();
+
             //glRotated(90,0,0,0);
             glTranslated(centro->getX(),centro->getY(),0);
-            glScaled(radio,radio,1);
+            glScaled(anchura,altura,1);
             glRotated(rotacionAcumulada,0,0,1);
-            glColor3f(0,1,0);
+            glColor3f(0,1,0); 
             glBegin(GL_LINE_STRIP);
 
                 for(int i=0; i<numElem; i++)
@@ -178,28 +196,12 @@ void pintaPoligonoCentrado(){
                 glVertex2d(0, 0);
                 //glVertex2d(0, 1);
             glEnd();
-            glLoadIdentity();
+
 
             if(sentidoRotacion) rotacionAcumulada++; else rotacionAcumulada--;
 
         }
 
-/*** PINTA RADIOS ***/
-void pintaRadios(){
-
-            glMatrixMode(GL_MODELVIEW);
-            glScaled(radio,radio,1);
-            glTranslated(centro->getX(),centro->getY(),0);
-            //glRotated(90,radio,radio,0);
-                glColor3f(0,1,0);
-                //Pintamos el radio a piñon en el origen
-             glBegin(GL_LINE_STRIP);
-                    glVertex2d(0, 0);
-                    glVertex2d(0, 1);
-            glEnd();
-            glLoadIdentity();
-
-        }
 
 };
 

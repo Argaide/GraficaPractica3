@@ -97,7 +97,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* triangulo6 = new Triangulo(new PV2D(20,60), new PV2D(70,120), new PV2D(70,50));
     //Obstaculo* triangulo7 = new Triangulo(new PV2D(-70,-60), new PV2D(-10,-130), new PV2D(-90,-120) );
     //Obstaculo* circulo2 = new Circulo (30, new PV2D(-100,100));
-    //Obstaculo* circulo3 = new Circulo (30, new PV2D(110,-1));
+    Obstaculo* circulo3 = new Circulo (30, new PV2D(110,-1));
     //Obstaculo* triangulo8 = new Triangulo(new PV2D(-30,0), new PV2D(0,30), new PV2D(30,0));
 
     //Obstaculo* recb1 = new RecbTriangulo(25, new Triangulo(new PV2D(-30,30), new PV2D(30,30), new PV2D(0,0)));
@@ -107,7 +107,11 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
     //Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
 
-    Obstaculo* elipse = new Elipse(20, new PV2D(100,100));
+    Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(100,100));
+
+    Obstaculo* elipse2 = new Elipse(30, 15, new PV2D(-100,100));
+
+   Obstaculo* elipse3 = new Elipse(30, 22, new PV2D(100,-100));
 
 
     listaObstaculos = new Lista<Obstaculo*>();
@@ -122,7 +126,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //listaObstaculos->ponElem(triangulo7);
     //listaObstaculos->ponElem(triangulo8);
     //listaObstaculos->ponElem(circulo2);
-    //listaObstaculos->ponElem(circulo3);
+
 
     //listaObstaculos->ponElem(recb1);
     //listaObstaculos->ponElem(recb2);
@@ -137,7 +141,10 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     listaObstaculos->ponElem(recb02);
     listaObstaculos->ponElem(recb03);
     listaObstaculos->ponElem(recb04);
-    listaObstaculos->ponElem(elipse);
+    listaObstaculos->ponElem(elipse1);
+    listaObstaculos->ponElem(elipse2);
+    listaObstaculos->ponElem(elipse3);
+    listaObstaculos->ponElem(circulo3);
 
 }
 

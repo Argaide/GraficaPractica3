@@ -32,16 +32,16 @@ class Circulo : public Obstaculo
    public:
         Circulo();
         Circulo(double r, PV2D* c){
-            poligono = new Poligono(r,c);             
+            poligono = new Poligono(r,c, false);             
         }
         ~Circulo(){ delete poligono; };
 
 /*** GETTERS ***/    
-        double getRadio(){ return poligono->getRadio(); }
+        double getRadio(){ return poligono->getAnchura(); }
         PV2D* getCentro(){ return poligono->getCentro(); }
 
 /*** SETTERS ***/
-        void setRadio(double r){ poligono->setRadio(r); }
+        void setRadio(double r){ poligono->setAnchura(r); poligono->setAltura(r); }
         void setCentro(GLdouble x, GLdouble y){ poligono->setCentro(x,y); }
 
 /*** HAY COLISION (Metodo de Obstaculo) ***/
@@ -103,7 +103,7 @@ class Circulo : public Obstaculo
 
 /*** PINTAR EL CIRCULO ***/
         void pintaObstaculo(){
-            poligono->pintaPoligono();
+            poligono->pintaPoligonoCentrado();
         }
 };
 

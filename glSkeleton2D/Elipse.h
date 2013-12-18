@@ -29,19 +29,22 @@ class Elipse : public Obstaculo
         Poligono* poligono;
         Vector* normalElipse;
 
+
    public:
         Elipse();
-        Elipse(double r, PV2D* c){
-            poligono = new Poligono(r,c);             
+        Elipse(double ancho, double alto, PV2D* c){
+            poligono = new Poligono(ancho, alto,c, false);             
         }
         ~Elipse(){ delete poligono; };
 
-/*** GETTERS ***/    
-        double getRadio(){ return poligono->getRadio(); }
+/*** GETTERS ***/
+        double getAnchura(){ return poligono->getAnchura(); }
+         double getAltura(){ return poligono->getAltura(); }
         PV2D* getCentro(){ return poligono->getCentro(); }
 
 /*** SETTERS ***/
-        void setRadio(double r){ poligono->setRadio(r); }
+        void setAnchura(double a){ poligono->setAnchura(a); }
+        void setAltura(double a){ poligono->setAltura(a); }
         void setCentro(GLdouble x, GLdouble y){ poligono->setCentro(x,y); }
 
 /*** HAY COLISION (Metodo de Obstaculo) ***/
@@ -63,7 +66,7 @@ class Elipse : public Obstaculo
 
 /*** PINTAR EL CIRCULO ***/
         void pintaObstaculo(){
-            poligono->pintaPoligono();
+            poligono->pintaPoligonoCentrado();
         }
 };
 

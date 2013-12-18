@@ -33,7 +33,7 @@ class Pelota
         Pelota();
         Pelota(GLdouble r, PV2D* c, Vector* v){
             vectorMovimiento =  v;
-            poligono = new Poligono(r, c);
+            poligono = new Poligono(r, c, true);
         }
         ~Pelota(){ delete vectorMovimiento; delete poligono;};
 
@@ -42,7 +42,7 @@ class Pelota
         GLdouble getX(){ return poligono->getCentro()->getX(); }
         GLdouble getY(){ return poligono->getCentro()->getY(); }
         Vector* getVector() {return vectorMovimiento;}
-        double getRadio(){ return poligono->getRadio(); }
+        double getRadio(){ return poligono->getAnchura(); }
 
 /*** SET ***/ 
         void setCentro(GLdouble x, GLdouble y){ poligono->setCentro(x,y); }
@@ -54,12 +54,15 @@ class Pelota
 
             // Pintamos el centro de la pelota
             glMatrixMode(GL_MODELVIEW);
+
+
             glTranslated(getX(),getY(),0);
             glColor3f(1,0,0);
             glBegin(GL_POINTS);
                 glVertex2d(1,1);
             glEnd();
             glLoadIdentity();
+
         }
 
          void muevePelota(){ // TODO -> USAR LA CLASE TTIMER... (por el momento no la uso)
