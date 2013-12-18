@@ -80,7 +80,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     while(y == 0)
         y = (rand() % 6) - 3;     // Evitamos que se mueva de forma horizontal al inicio
 
-    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(1, 0)));
+    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(1, 1)));
 
     // inicialización de las variables del programa
 
@@ -97,7 +97,7 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* triangulo6 = new Triangulo(new PV2D(20,60), new PV2D(70,120), new PV2D(70,50));
     //Obstaculo* triangulo7 = new Triangulo(new PV2D(-70,-60), new PV2D(-10,-130), new PV2D(-90,-120) );
     //Obstaculo* circulo2 = new Circulo (30, new PV2D(-100,100));
-    Obstaculo* circulo3 = new Circulo (30, new PV2D(110,-1));
+    //Obstaculo* circulo3 = new Circulo (30, new PV2D(0,100));
     //Obstaculo* triangulo8 = new Triangulo(new PV2D(-30,0), new PV2D(0,30), new PV2D(30,0));
 
     //Obstaculo* recb1 = new RecbTriangulo(25, new Triangulo(new PV2D(-30,30), new PV2D(30,30), new PV2D(0,0)));
@@ -107,11 +107,11 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
     //Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
 
-    Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(100,100));
+    Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(0,100));
 
-    Obstaculo* elipse2 = new Elipse(30, 15, new PV2D(-100,100));
+    //Obstaculo* elipse2 = new Elipse(30, 15, new PV2D(-100,100));
 
-   Obstaculo* elipse3 = new Elipse(30, 22, new PV2D(100,-100));
+   //Obstaculo* elipse3 = new Elipse(30, 22, new PV2D(100,-100));
 
 
     listaObstaculos = new Lista<Obstaculo*>();
@@ -142,9 +142,9 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     listaObstaculos->ponElem(recb03);
     listaObstaculos->ponElem(recb04);
     listaObstaculos->ponElem(elipse1);
-    listaObstaculos->ponElem(elipse2);
-    listaObstaculos->ponElem(elipse3);
-    listaObstaculos->ponElem(circulo3);
+    //listaObstaculos->ponElem(elipse2);
+    //listaObstaculos->ponElem(elipse3);
+    //listaObstaculos->ponElem(circulo3);
 
 }
 
@@ -276,7 +276,44 @@ void __fastcall TGLForm2D::FormDestroy(TObject *Sender)
 
 void __fastcall TGLForm2D::FormClick(TObject *Sender)
 {
-    Timer1->Enabled = ! Timer1->Enabled;
+    //Timer1->Enabled = ! Timer1->Enabled;
+    GLdouble tImpacto;
+    Vector* normalImpacto;
+    GLdouble mintImpacto=9999;
+    Vector* minNormalImpacto;
+    bool colision = false;
+    Obstaculo* obstaculo;
+    Obstaculo* minObstaculo;
+    GLdouble modulo = pelota->getVector()->getModulo() + 0.01;
+
+    //Para cada obstaculo
+    for(int j=0; j< listaObstaculos->numElem(); j++){
+        obstaculo = listaObstaculos->iesimo(j);
+
+        //Miro si hay una colision
+        colision |= obstaculo->hayColision(pelota->getCentro(), pelota->getVector(), tImpacto ,normalImpacto);
+
+        //Nos quedamos con el mínimo impacto
+        if(tImpacto > 0  && tImpacto<=modulo  && tImpacto < mintImpacto){
+            mintImpacto = tImpacto;
+            minNormalImpacto = normalImpacto;
+            minObstaculo = obstaculo;
+        }
+    }
+
+    //Descarto falsos positivos
+    if(colision && mintImpacto > 0 && mintImpacto <=modulo ){
+        //Mueve la pelota hasta tImpacto
+        //ShowMessage("Positivo valido detectado");
+        pelota->muevePelotaHasta(mintImpacto);
+        pelota->cambiaSentidoRotacion();
+        //Timer1->Enabled = false;
+        minObstaculo->resuelveColision(minNormalImpacto, pelota->getCentro(), pelota->getVector());
+    }
+    else
+        pelota->muevePelota();
+
+    GLScene();
 }
 
 //---------------------------------------------------------------------------
@@ -298,7 +335,7 @@ void __fastcall TGLForm2D::Timer1Timer(TObject *Sender)
 
         //Miro si hay una colision
         colision |= obstaculo->hayColision(pelota->getCentro(), pelota->getVector(), tImpacto ,normalImpacto);
-        
+
         //Nos quedamos con el mínimo impacto
         if(tImpacto > 0  && tImpacto<=modulo  && tImpacto < mintImpacto){
             mintImpacto = tImpacto;
