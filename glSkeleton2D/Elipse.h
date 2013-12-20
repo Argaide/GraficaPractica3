@@ -52,21 +52,34 @@ class Elipse : public Obstaculo
 
             GLdouble modulo = vectorMovimiento->getModulo();
 
-            Vector* centroAlPuntoDeImpacto = new Vector(getCentro(), centro);
+        // TRANSFORMAMOS LA PELOTA
 
-            // Lo multiplicamos por la normal
-            GLdouble xVector = (1/poligono->getAnchura()) * centroAlPuntoDeImpacto->getX() ;
-            GLdouble yVector = (1/poligono->getAltura()) * centroAlPuntoDeImpacto->getY() ;
-            Vector* centroAlPuntoDeImpactoNuevo = new Vector( new PV2D(xVector,yVector));
+            //Calculo el nuevo centro de la pelota transformado
+            GLdouble xCentro = (1/poligono->getAnchura()) * centro->getX() - (poligono->getCentro()->getX() / poligono->getAnchura() ) ;
+            GLdouble yCentro = (1/poligono->getAltura()) * centro->getY() - (poligono->getCentro()->getY() / poligono->getAltura());
+            PV2D* centroPelotaTransformado = new PV2D(xCentro,yCentro);
 
-            centroAlPuntoDeImpactoNuevo->getVectorNormalizado();
-            centroAlPuntoDeImpactoNuevo->productoVectorPorConstante(modulo);
+            //Calculo el nuevo vector de la pelota transformado
+            GLdouble xVector = (1/poligono->getAnchura()) * vectorMovimiento->getX();
+            GLdouble yVector = (1/poligono->getAltura()) * vectorMovimiento->getY();
+            Vector* vectorPelotaTransformado = new Vector( new PV2D(xVector,yVector));
 
-            vectorMovimiento->setX(centroAlPuntoDeImpactoNuevo->getX());
-            vectorMovimiento->setY(centroAlPuntoDeImpactoNuevo->getY());
+        // TRANSFORMAMOS LA ELIPSE
 
-            delete centroAlPuntoDeImpactoNuevo;
+            PV2D* centroElipseTransformado = new PV2D(0,0);
+
+            Vector* centroAlPuntoDeImpacto = new Vector(centroElipseTransformado, centroPelotaTransformado);
+
+            centroAlPuntoDeImpacto->getVectorNormalizado();
+            centroAlPuntoDeImpacto->productoVectorPorConstante(modulo);
+
+            vectorMovimiento->setX(centroAlPuntoDeImpacto->getX());
+            vectorMovimiento->setY(centroAlPuntoDeImpacto->getY());
+
             delete centroAlPuntoDeImpacto;
+            delete centroPelotaTransformado;
+            delete vectorPelotaTransformado;
+            delete centroElipseTransformado;
 
             return false;
         }
@@ -82,8 +95,8 @@ class Elipse : public Obstaculo
             PV2D* centroPelotaTransformado = new PV2D(xCentro,yCentro);
 
             //Calculo el nuevo vector de la pelota transformado
-            GLdouble xVector = (1/poligono->getAnchura()) * vector->getX() ;
-            GLdouble yVector = (1/poligono->getAltura()) * vector->getY() ;
+            GLdouble xVector = (1/poligono->getAnchura()) * vector->getX();
+            GLdouble yVector = (1/poligono->getAltura()) * vector->getY();
             Vector* vectorPelotaTransformado = new Vector( new PV2D(xVector,yVector));
 
             //LLevo una variable con el centro de la elipse transformada
