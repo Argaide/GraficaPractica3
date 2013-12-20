@@ -255,8 +255,16 @@ void __fastcall TGLForm2D::GLScene()
     glClear(GL_COLOR_BUFFER_BIT);
 
     dibulaObstaculo();
-    
+
     pelota->dibujaPelota();
+
+    /*glColor3f(1,1,1);
+    glBegin(GL_QUADS);
+        glVertex2d(-5,5);
+        glVertex2d(5,5);
+        glVertex2d(5,-5);
+        glVertex2d(-5,-5);
+    glEnd();*/
 
     glFlush();
     SwapBuffers(hdc);

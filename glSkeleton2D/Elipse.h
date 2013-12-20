@@ -51,21 +51,21 @@ class Elipse : public Obstaculo
             //ShowMessage("Resolviendo colision con la elipse");
 
             GLdouble modulo = vectorMovimiento->getModulo();
-            
-            //Calculo de nuevo el centro
-            /*GLdouble xCentro = (1/poligono->getAnchura()) * centro->getX() - (poligono->getCentro()->getX() / poligono->getAnchura() ) ;
-            GLdouble yCentro = (1/poligono->getAltura()) * centro->getY() - (poligono->getCentro()->getY() / poligono->getAltura());
-            PV2D* centroTransformado = new PV2D(xCentro,yCentro); */
 
             Vector* centroAlPuntoDeImpacto = new Vector(getCentro(), centro);
-            centroAlPuntoDeImpacto->getVectorNormalizado();
-            centroAlPuntoDeImpacto->productoVectorPorConstante(modulo);
 
-            //delete centroTransformado;
+            // Lo multiplicamos por la normal
+            GLdouble xVector = (1/poligono->getAnchura()) * centroAlPuntoDeImpacto->getX() ;
+            GLdouble yVector = (1/poligono->getAltura()) * centroAlPuntoDeImpacto->getY() ;
+            Vector* centroAlPuntoDeImpactoNuevo = new Vector( new PV2D(xVector,yVector));
 
-            vectorMovimiento->setX(centroAlPuntoDeImpacto->getX());
-            vectorMovimiento->setY(centroAlPuntoDeImpacto->getY());
+            centroAlPuntoDeImpactoNuevo->getVectorNormalizado();
+            centroAlPuntoDeImpactoNuevo->productoVectorPorConstante(modulo);
 
+            vectorMovimiento->setX(centroAlPuntoDeImpactoNuevo->getX());
+            vectorMovimiento->setY(centroAlPuntoDeImpactoNuevo->getY());
+
+            delete centroAlPuntoDeImpactoNuevo;
             delete centroAlPuntoDeImpacto;
 
             return false;
