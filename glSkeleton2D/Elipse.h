@@ -7,7 +7,7 @@
 //********************************//
 
 #ifndef ElipseH
-#define ElipseCirculoH
+#define ElipseH
 
 #include <gl\gl.h>
 #include <gl\glu.h>
@@ -29,7 +29,6 @@ class Elipse : public Obstaculo
         Poligono* poligono;
         Vector* normalElipse;
 
-
    public:
         Elipse();
         Elipse(double ancho, double alto, PV2D* c){
@@ -39,7 +38,7 @@ class Elipse : public Obstaculo
 
 /*** GETTERS ***/
         double getAnchura(){ return poligono->getAnchura(); }
-         double getAltura(){ return poligono->getAltura(); }
+        double getAltura(){ return poligono->getAltura(); }
         PV2D* getCentro(){ return poligono->getCentro(); }
 
 /*** SETTERS ***/
@@ -48,12 +47,29 @@ class Elipse : public Obstaculo
         void setCentro(GLdouble x, GLdouble y){ poligono->setCentro(x,y); }
 
 /*** HAY COLISION (Metodo de Obstaculo) ***/
- bool  resuelveColision(Vector* normal, PV2D* centro, Vector* vectorMovimiento){
-          ShowMessage("Resolviendo colision con la elipse");
+        bool resuelveColision(Vector* normal, PV2D* centro, Vector* vectorMovimiento){
+            //ShowMessage("Resolviendo colision con la elipse");
 
+            GLdouble modulo = vectorMovimiento->getModulo();
+            
+            //Calculo de nuevo el centro
+            /*GLdouble xCentro = (1/poligono->getAnchura()) * centro->getX() - (poligono->getCentro()->getX() / poligono->getAnchura() ) ;
+            GLdouble yCentro = (1/poligono->getAltura()) * centro->getY() - (poligono->getCentro()->getY() / poligono->getAltura());
+            PV2D* centroTransformado = new PV2D(xCentro,yCentro); */
 
-      return false;
-}
+            Vector* centroAlPuntoDeImpacto = new Vector(getCentro(), centro);
+            centroAlPuntoDeImpacto->getVectorNormalizado();
+            centroAlPuntoDeImpacto->productoVectorPorConstante(modulo);
+
+            //delete centroTransformado;
+
+            vectorMovimiento->setX(centroAlPuntoDeImpacto->getX());
+            vectorMovimiento->setY(centroAlPuntoDeImpacto->getY());
+
+            delete centroAlPuntoDeImpacto;
+
+            return false;
+        }
 
 /*** RESUELVE COLISION (Metodo de Obstaculo) ***/
         bool hayColision(PV2D* centro, Vector* vector , GLdouble& tImpacto, Vector*& normalImpacto){

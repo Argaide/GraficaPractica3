@@ -20,6 +20,7 @@ using namespace std;
 #include "Circulo.h"
 #include "RecbTriangulo.h"
 #include "RecbCirculo.h"
+#include "RecbElipse.h"
 #include "Elipse.h"
 
 #include <math.h>
@@ -80,7 +81,8 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     while(y == 0)
         y = (rand() % 6) - 3;     // Evitamos que se mueva de forma horizontal al inicio
 
-    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(0, 1)));
+    //pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(0, 1)));
+    pelota = new Pelota(25, new PV2D(0,0), new Vector(new PV2D(x, y)));
 
     // inicialización de las variables del programa
 
@@ -107,7 +109,17 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     //Obstaculo* circulo1R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(10,-100)));
     //Obstaculo* circulo2R = new RecbCirculo(pelota->getRadio(), new Circulo(30, new PV2D(-50,100)));
 
-    Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(0,35));
+    /*Obstaculo* elipse1 = new Elipse(20, 30, new PV2D(0,35));
+    Obstaculo* elipse2 = new Elipse(20, 30, new PV2D(10,-35));
+    Obstaculo* elipse3 = new Elipse(70, 20, new PV2D(-100,-95));
+    Obstaculo* elipse4 = new Elipse(50, 20, new PV2D(80,-35));
+    Obstaculo* elipse5 = new Elipse(60, 37, new PV2D(-80,105));*/
+
+    Obstaculo* rElipse1 = new RecbElipse(pelota->getRadio(), new Elipse(20, 30, new PV2D(100,0)));
+    Obstaculo* rElipse2 = new RecbElipse(pelota->getRadio(), new Elipse(20, 30, new PV2D(100,100)));
+    Obstaculo* rElipse3 = new RecbElipse(pelota->getRadio(), new Elipse(60, 30, new PV2D(-10,-75)));
+    //Obstaculo* rElipse4 = new RecbElipse(pelota->getRadio(), new Elipse(50, 20, new PV2D(80,-35)));
+    Obstaculo* rElipse5 = new RecbElipse(pelota->getRadio(), new Elipse(60, 37, new PV2D(-80,105)));
 
     //Obstaculo* elipse2 = new Elipse(30, 15, new PV2D(-100,100));
 
@@ -141,7 +153,11 @@ void __fastcall TGLForm2D::FormCreate(TObject *Sender)
     listaObstaculos->ponElem(recb02);
     listaObstaculos->ponElem(recb03);
     listaObstaculos->ponElem(recb04);
-    listaObstaculos->ponElem(elipse1);
+    listaObstaculos->ponElem(rElipse1);
+    listaObstaculos->ponElem(rElipse2);
+    listaObstaculos->ponElem(rElipse3);
+    //listaObstaculos->ponElem(rElipse4);
+    listaObstaculos->ponElem(rElipse5);
     //listaObstaculos->ponElem(elipse2);
     //listaObstaculos->ponElem(elipse3);
     //listaObstaculos->ponElem(circulo3);
@@ -276,7 +292,7 @@ void __fastcall TGLForm2D::FormDestroy(TObject *Sender)
 
 void __fastcall TGLForm2D::FormClick(TObject *Sender)
 {
-    //Timer1->Enabled = ! Timer1->Enabled;
+    Timer1->Enabled = ! Timer1->Enabled;
     GLdouble tImpacto;
     Vector* normalImpacto;
     GLdouble mintImpacto=9999;
@@ -304,7 +320,7 @@ void __fastcall TGLForm2D::FormClick(TObject *Sender)
     //Descarto falsos positivos
     if(colision && mintImpacto > 0 && mintImpacto <=modulo ){
         //Mueve la pelota hasta tImpacto
-        ShowMessage("Positivo valido detectado");
+        //ShowMessage("Positivo valido detectado");
         pelota->muevePelotaHasta(mintImpacto);
         pelota->cambiaSentidoRotacion();
         //Timer1->Enabled = false;

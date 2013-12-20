@@ -52,9 +52,7 @@ class Pelota
         void dibujaPelota(){
             poligono->pintaPoligonoCentrado();
 
-            // Pintamos el centro de la pelota
             glMatrixMode(GL_MODELVIEW);
-
 
             glTranslated(getX(),getY(),0);
             glColor3f(1,0,0);
@@ -65,14 +63,13 @@ class Pelota
 
         }
 
-         void muevePelota(){ // TODO -> USAR LA CLASE TTIMER... (por el momento no la uso)
-
+         void muevePelota(){
             GLdouble nuevaX = getX() + vectorMovimiento->getX();
             GLdouble nuevaY = getY() + vectorMovimiento->getY();
             setCentro(nuevaX, nuevaY);
         }
 
-        void muevePelotaHasta(GLdouble tImpacto){ // TODO -> USAR LA CLASE TTIMER... (por el momento no la uso)
+        void muevePelotaHasta(GLdouble tImpacto){
              tImpacto = tImpacto/10;
              Vector* aux = new Vector(new PV2D (vectorMovimiento->getX(), vectorMovimiento->getY()));
              aux->productoVectorPorConstante(tImpacto);
